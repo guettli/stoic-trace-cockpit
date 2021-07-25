@@ -2,7 +2,7 @@
 
 # Why "django-trace-cockpit"?
 
-I develop Django applications since 2009. Nevertheless sometimes I don't get what is going on,
+I develop Django applications since 2009. Nevertheless sometimes I don't understand what is going on,
 I would to see what the Python interpreter executes while processing an http request.
 
 With "trace" I mean an output similar to `set -x` in the bash shell. Every line should be visible,
