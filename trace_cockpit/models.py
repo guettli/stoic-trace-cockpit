@@ -20,8 +20,10 @@ class TraceConfig(Model):
     def trace(self, function, *args, **kwargs):
         trace_to_json = TraceToJson()
         with hunter.trace(trace_to_json):
-            function(*args, **kwargs)
-        return TraceLog.objects.create(config=self, json=list(trace_to_json.iter_lines_and_close()))
+            ret = function(*args, **kwargs)
+        return (
+            TraceLog.objects.create(config=self, json=list(trace_to_json.iter_lines_and_close())),
+            ret)
 
 class TraceFilter(OrderedModel):
     config = ForeignKey(TraceConfig, on_delete=CASCADE)

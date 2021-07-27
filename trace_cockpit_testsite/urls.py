@@ -1,4 +1,4 @@
-"""mysite URL Configuration
+"""trace_cockpit_testsite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import path
+
+def dummy_view(request):
+    i = 0
+    i += 1
+    return HttpResponse(f'<html><body>i: {i}</body></html>')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('dummy_view', dummy_view, name='dummy_view'),
 ]

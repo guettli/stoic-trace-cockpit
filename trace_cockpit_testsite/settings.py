@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'trace_cockpit.middleware.TraceMiddleware',
     'check_html.CheckHTMLMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -42,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'trace_cockpit_testsite.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +61,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'trace_cockpit_testsite.wsgi.application'
 
 db_name = os.getenv('PGDATABASE')
 db_user = os.getenv('PGUSER')
