@@ -1,7 +1,9 @@
+import json
 import os
 
 import hunter
 
+from trace_cockpit.testutils import norm_json_event_list
 from trace_cockpit.trace_to_json import TraceToJson
 
 
@@ -15,11 +17,7 @@ def test_trace_to_json():
     trace_to_json = TraceToJson()
     with hunter.trace(trace_to_json):
         foo()
-    expected = []
-    for line in trace_to_json.read_and_close():
-        line['filename'] = os.path.basename(line['filename'])
-        line.pop('lineno')
-        expected.append(line)
+    expected = norm_json_event_list(trace_to_json.iter_lines_and_close())
     assert expected == [{'builtin': False,
                          'filename': 'test_trace_to_json.py',
                          'function': 'test_trace_to_json',

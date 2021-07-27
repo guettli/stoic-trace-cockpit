@@ -42,7 +42,7 @@ class TraceToJson(Action):
             return True
         return False
 
-    def read_and_close(self):
+    def iter_lines_and_close(self):
         self.stream.seek(0)
         for line in self.stream:
             yield json.loads(line)
