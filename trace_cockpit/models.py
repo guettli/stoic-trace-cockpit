@@ -18,7 +18,7 @@ class TraceConfig(OrderedModel):
                                    request.get_full_path() is available in the variable "url".
                                    Example2: "'fooo' in url"
                                    Nested expressions are possible. 
-                                   Example3: "request.user.username=='foo' and ('foo' in url or url.startswith('/bar')"''',
+                                   Example3: "request.user.username=='foo' and ('foo' in url or url.startswith('/bar'))"''',
                                    blank=True)
 
     def __str__(self):
