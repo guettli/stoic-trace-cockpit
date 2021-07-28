@@ -43,7 +43,6 @@ def test_TraceConfig_trace():
 @pytest.mark.django_db
 def test_dummy_view(client):
     config = TraceConfig.objects.create(name='dummy')
-    config2 = TraceConfig.objects.create(name='dummy2')
     url = reverse('dummy_view')
     response = client.get(url)
     assert response.status_code == 200
@@ -76,6 +75,12 @@ def test_dummy_view(client):
              'module': 'trace_cockpit_testsite.urls',
              'source': "    return HttpResponse(f'<html><body>i: {i}</body></html>')"}]
     assert norm_json_event_list(log.json, include_only_these_modules=['trace_cockpit_testsite.urls']) == expected
-    log2 = TraceLog.objects.get(config=config2)
-    #assert json.dumps(log2.json, indent=2) == json.dumps(expected, indent=2)
-    assert norm_json_event_list(log2.json) == expected
+
+@pytest.mark.django_db
+def test_do_you_want_to_trace__eval_exception(rf):
+    config = TraceConfig.objects.create(trace_request_eval='foo(')
+    config.do_you_want_to_trace(rf.get('/'))
+    log = TraceLog.objects.get(config=config)
+    assert not log.success
+    assert log.error_message == 'Eval failed: unexpected EOF while parsing (<string>, line 1)'
+

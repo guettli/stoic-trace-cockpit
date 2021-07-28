@@ -45,3 +45,4 @@ def test_trace_to_json():
                          'kind': 'return',
                          'module': 'trace_cockpit.tests.test_trace_to_json',
                          'source': "    print(f'i: {i}')"}]
+
