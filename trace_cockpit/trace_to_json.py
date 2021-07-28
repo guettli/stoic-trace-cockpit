@@ -36,7 +36,7 @@ class TraceToJson(Action):
 
     @classmethod
     def is_event_to_skip(cls, event: Event):
-        if event.module in ['hunter']:
+        if event.module.startswith(('hunter.', 'hunter', 'trace_cockpit.', 'django.', 'asgiref.')):
             return True
         if is_stdlib(event):
             return True

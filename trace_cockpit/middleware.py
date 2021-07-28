@@ -15,8 +15,11 @@ class TraceMiddleware:
             trace_configs_for_this_request.append(config)
         if not trace_configs_for_this_request:
             return self.get_response(request)
-        #get_response = lambda: (None, self.get_response(request))
-        #for config in trace_configs_for_this_request:
-        #    get_response = lambda: config.trace(get_response)
-        #get_response = lambda: config.trace(get_response)
-        return config.trace(self.get_response, request)[1]
+        handler = lambda: (None, self.get_response(request))
+        for config in trace_configs_for_this_request:
+            handler = self.handler(config.trace, handler)
+        return handler()[1]
+
+    def handler(self, method, handler):
+        return lambda: method(handler)[1]
+
