@@ -32,13 +32,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'trace_cockpit.middleware.TraceMiddleware',
     'check_html.CheckHTMLMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'trace_cockpit.middleware.TraceMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

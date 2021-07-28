@@ -16,6 +16,4 @@ class TraceMiddleware:
             return config.trace(self.get_response, request)[1]
         return self.get_response(request)
 
-    def handler(self, method, handler):
-        return lambda: method(handler)[1]
 

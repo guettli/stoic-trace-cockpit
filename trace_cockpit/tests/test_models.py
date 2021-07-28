@@ -43,6 +43,7 @@ def test_dummy_view(client):
     assert response.status_code == 200
     assert response.content == b'<html><body>i: 1</body></html>'
     log = TraceLog.objects.get(config=config)
+    assert log.http_status == '200: OK'
     expected = \
         [{'filename': 'urls.py',
           'function': 'dummy_view',
@@ -75,7 +76,12 @@ def test_dummy_view(client):
 @pytest.mark.django_db
 def test_do_you_want_to_trace__eval_exception(rf):
     config = TraceConfig.objects.create(trace_request_eval='foo(')
-    config.do_you_want_to_trace(rf.get('/'))
+    assert not config.do_you_want_to_trace(rf.get('/'))
     log = TraceLog.objects.get(config=config)
     assert not log.success
     assert log.error_message == 'Eval failed: unexpected EOF while parsing (<string>, line 1)'
+
+    config.trace_request_eval = "'fooo' in url"
+    assert config.do_you_want_to_trace(rf.get('/?fooo'))
+    assert not config.do_you_want_to_trace(rf.get('/?bar'))
+
