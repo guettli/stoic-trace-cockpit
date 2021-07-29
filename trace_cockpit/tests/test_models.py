@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 from trace_cockpit.models import TraceConfig, TraceLog
-from trace_cockpit.testutils import norm_json_event_list
+from trace_cockpit.testutils import norm_json_lines
 from trace_cockpit_testsite.utils import dummy_get_response
 
 
@@ -14,7 +14,7 @@ def test_trace_get_response(rf):
     assert log.config == config
     assert log.url == '/path?arg=value'
     assert log.http_status == '200: OK'
-    expected = norm_json_event_list(log.json)
+    expected = norm_json_lines(log.json_lines.splitlines())
     assert expected == [{'filename': 'utils.py',
                          'function': 'dummy_get_response',
                          'kind': 'call',
@@ -50,6 +50,7 @@ def test_dummy_view(client):
     assert response.status_code == 200
     assert response.content == b'<html><body>i: 1</body></html>'
     log = TraceLog.objects.get(config=config)
+    assert log.http_method == 'GET'
     assert log.http_status == '200: OK'
     expected = \
         [{'filename': 'urls.py',
@@ -77,7 +78,7 @@ def test_dummy_view(client):
           'kind': 'return',
           'module': 'trace_cockpit_testsite.urls',
           'source': "    return HttpResponse(f'<html><body>i: {i}</body></html>')"}]
-    assert norm_json_event_list(log.json, include_only_these_modules=['trace_cockpit_testsite.urls']) == expected
+    assert norm_json_lines(log.json_lines.splitlines(), include_only_these_modules=['trace_cockpit_testsite.urls']) == expected
 
 
 @pytest.mark.django_db

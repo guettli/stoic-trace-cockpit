@@ -2,7 +2,7 @@ import json
 
 import hunter
 from django.db.models import Model, CharField, ForeignKey, CASCADE, BooleanField, JSONField, TextField, DateTimeField, \
-    URLField
+    URLField, PositiveIntegerField
 from django.http import HttpRequest, HttpResponse
 from ordered_model.models import OrderedModel
 
@@ -24,6 +24,8 @@ class TraceConfig(OrderedModel):
                                    This flexiblity has a draw-back. An evil staff-user could do "from foo.models import MyModel; MyModel.objects.all().delete()" or other fancy evil things.''',
                                    blank=True)
 
+    max_event_count_per_module = PositiveIntegerField(default=TraceToJson.max_event_count_per_module)
+
     def __str__(self):
         return self.name
 
@@ -41,25 +43,33 @@ class TraceConfig(OrderedModel):
             return False
 
     def trace_get_response(self, get_response, request):
-        trace_to_json = TraceToJson()
+        trace_to_json = TraceToJson(max_event_count_per_module=self.max_event_count_per_module)
         with hunter.trace(trace_to_json):
             response = get_response(request)
         return (
-            TraceLog.objects.create(config=self, json=list(trace_to_json.iter_lines_and_close()),
+            TraceLog.objects.create(config=self, json_lines=''.join(trace_to_json.iter_lines_and_close()),
                                     http_status=f'{response.status_code}: {response.reason_phrase}',
-                                    url = request.get_full_path_info()),
+                                    http_method=request.method,
+                                    url=request.get_full_path_info(),
+                                    skipped_modules=trace_to_json.skipped_modules,
+                                    skipped_events_because_max_reached=trace_to_json.skipped_events_because_max_reached,
+
+                                    ),
             response)
 
 
 class TraceLog(Model):
     config = ForeignKey(TraceConfig, on_delete=CASCADE)
     datetime_created = DateTimeField(auto_now_add=True)
-    json = JSONField(default=list)
+    json_lines = TextField(default='', editable=False)
     success = BooleanField(default=True)
     error_message = TextField(default='')
     url = URLField(default='')
     http_status = CharField(max_length=1024, default='')
+    http_method = CharField(max_length=1024, default='')
+    skipped_modules = JSONField(default=dict, blank=True, editable=False)
+    skipped_events_because_max_reached = JSONField(default=dict, blank=True, editable=False)
 
     @property
     def log_size(self):
-        return len(json.dumps(self.json))
+        return len(self.json_lines)
