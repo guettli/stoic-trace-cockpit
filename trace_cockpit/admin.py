@@ -3,6 +3,7 @@ from django.contrib.admin import ModelAdmin
 from django.utils.html import format_html
 from ordered_model.admin import OrderedInlineModelAdminMixin, OrderedModelAdmin
 
+from trace_cockpit.html import jsontrace_to_html
 from trace_cockpit.models import TraceConfig, TraceLog
 
 
@@ -23,7 +24,9 @@ admin.site.register(TraceConfig, TraceConfigAdmin)
 
 class TraceLogAdmin(ModelAdmin):
     list_display = ['config', 'datetime_created', 'http_status', 'log_size']
-    readonly_fields = ['config', 'success', 'json', 'error_message', 'http_status']
+    readonly_fields = ['config', 'success', 'html', 'error_message', 'url', 'http_status']
 
+    def html(self, log):
+        return jsontrace_to_html(log.json)
 
 admin.site.register(TraceLog, TraceLogAdmin)
