@@ -13,7 +13,7 @@ class TraceMiddleware:
                 continue
             # First match wins. Unfortunately Python does not support
             # several traces at once :-(
-            return config.trace(self.get_response, request)[1]
+            return config.trace_get_response(self.get_response, request)[1]
         return self.get_response(request)
 
 

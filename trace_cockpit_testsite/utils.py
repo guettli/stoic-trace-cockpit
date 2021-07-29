@@ -1,3 +1,7 @@
-def dummy_foo(i=0):
+from django.http import HttpResponse
+
+
+def dummy_get_response(request):
+    i = 0
     i += 1
-    print(f'i: {i}')
+    return HttpResponse('<html><body>{i}</body></html>')

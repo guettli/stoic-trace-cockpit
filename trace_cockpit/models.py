@@ -1,7 +1,8 @@
 import json
 
 import hunter
-from django.db.models import Model, CharField, ForeignKey, CASCADE, BooleanField, JSONField, TextField, DateTimeField
+from django.db.models import Model, CharField, ForeignKey, CASCADE, BooleanField, JSONField, TextField, DateTimeField, \
+    URLField
 from django.http import HttpRequest, HttpResponse
 from ordered_model.models import OrderedModel
 
@@ -15,10 +16,12 @@ class TraceConfig(OrderedModel):
                                    help_text='''Trace a request, if the expression matches.
                                    Example: "request.user.username=='foo'"
                                    If empty, then every request gets traced.
-                                   request.get_full_path() is available in the variable "url".
+                                   For convenience request.get_full_path() is available in the variable "url".
                                    Example2: "'fooo' in url"
                                    Nested expressions are possible. 
-                                   Example3: "request.user.username=='foo' and ('foo' in url or url.startswith('/bar'))"''',
+                                   Example3: "request.user.username=='foo' and ('bar' in url or url.startswith('/blue'))"
+                                   
+                                   This flexiblity has a draw-back. An evil staff-user could do "from foo.models import MyModel; MyModel.objects.all().delete()" or other fancy evil things.''',
                                    blank=True)
 
     def __str__(self):
@@ -37,17 +40,15 @@ class TraceConfig(OrderedModel):
                                     config=self)
             return False
 
-    def trace(self, function, *args, **kwargs):
+    def trace_get_response(self, get_response, request):
         trace_to_json = TraceToJson()
         with hunter.trace(trace_to_json):
-            ret = function(*args, **kwargs)
-        kwargs = dict()
-        if isinstance(ret, HttpResponse):
-            kwargs['http_status'] = f'{ret.status_code}: {ret.reason_phrase}'
+            response = get_response(request)
         return (
             TraceLog.objects.create(config=self, json=list(trace_to_json.iter_lines_and_close()),
-                                    **kwargs),
-            ret)
+                                    http_status=f'{response.status_code}: {response.reason_phrase}',
+                                    url = request.get_full_path_info()),
+            response)
 
 
 class TraceLog(Model):
@@ -56,6 +57,7 @@ class TraceLog(Model):
     json = JSONField(default=list)
     success = BooleanField(default=True)
     error_message = TextField(default='')
+    url = URLField(default='')
     http_status = CharField(max_length=1024, default='')
 
     @property
