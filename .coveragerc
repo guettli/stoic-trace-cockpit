@@ -1,0 +1,10 @@
+[run]
+omit =
+ *_test.py
+ */migrations/*.py
+
+source =
+ trace_cockpit
+
+[html]
+directory = coverage_html_report
