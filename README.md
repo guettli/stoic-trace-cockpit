@@ -1,6 +1,6 @@
-# django-trace-cockpit
+# stoic-trace-cockpit
 
-# Why "django-trace-cockpit"?
+# Why "stoic-trace-cockpit"?
 
 I develop Django applications since 2009. Nevertheless sometimes I don't understand what is going on.
 I would like to see what the Python interpreter is doing while processing my http request.
@@ -15,20 +15,20 @@ Django-tace-cockpit is meant to be useful during development and live on product
 # Install
 
 ```
-python3 -m venv django-trace-cockpit-env
-cd django-trace-cockpit-env/
+python3 -m venv stoic-trace-cockpit-env
+cd stoic-trace-cockpit-env/
 . bin/activate
 pip install -U pip wheel
-pip install -e git+ssh://git@github.com/guettli/django-trace-cockpit.git#egg=django-trace-cockpit
-cp src/django-trace-cockpit/.env.example src/django-trace-cockpit/.env
-echo '. $VIRTUAL_ENV/src/django-trace-cockpit/.env' >> bin/activate
-echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/django-trace-cockpit/.env)' >> bin/activate
+pip install -e git+ssh://git@github.com/guettli/stoic-trace-cockpit.git#egg=stoic-trace-cockpit
+cp src/stoic-trace-cockpit/.env.example src/stoic-trace-cockpit/.env
+echo '. $VIRTUAL_ENV/src/stoic-trace-cockpit/.env' >> bin/activate
+echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/stoic-trace-cockpit/.env)' >> bin/activate
 
 . bin/activate
 
 # You need to have PostgreSQL installed
-# Create user "django-trace-cockpit" with password "django-trace-cockpit":
-sudo runuser -u postgres -- createuser -s -P django-trace-cockpit
+# Create user "stoic-trace-cockpit" with password "stoic-trace-cockpit":
+sudo runuser -u postgres -- createuser -s -P stoic-trace-cockpit
 
 createdb $PGDATABASE
 manage.py migrate

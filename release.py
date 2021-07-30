@@ -39,7 +39,7 @@ def check_tests_and_coverage():
 
 
 def main():
-    os.chdir(os.path.join(os.getenv('VIRTUAL_ENV'), 'src/django-trace-cockpit'))
+    os.chdir(os.path.join(os.getenv('VIRTUAL_ENV'), 'src/stoic-trace-cockpit'))
     check_git_is_clean()
     check_tests_and_coverage()
     call('git push')
