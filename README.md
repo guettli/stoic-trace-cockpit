@@ -1,4 +1,4 @@
-# stoic-trace-cockpit
+# Stoic Trace Framework
 
 # Why "stoic-trace-cockpit"?
 
@@ -13,6 +13,9 @@ With "cockpit" I mean a web-interface. You can enable and disable the tracing wi
 The Stoic Trace Cockpit is meant to be useful during development and live on production.
 
 It is developed with and for the [Django](https://www.djangoproject.com) web framework.
+
+
+
 
 # Status: Alpha
 
@@ -89,6 +92,15 @@ Add this to `MIDDLEWARE`:
 
 A good place for it is below "AuthenticationMiddleware", because you migh twant to trace http-request for a particular user. This is only possible if `request.user` already exists.
 
+# Why "stoic"?
+
+Why "stoic"? The audiobook "Was ich noch sagen wollte" (Helmut Schmidt) introduced me to Stoicism.
+Since then I embrace his guideline "serenity and dutifulness".
+
+Imagine it is the 15. April 1912, and you are on the RMS Titanic which is slowly sinking into the cold North Atlantic Ocean.
+The best thing you can do is to take your instrument and play some lovely and relaxing tones with your friends.
+
+There are things which are inside your circle of influence and things which are outside your circle of influence.
 
 # Naming convention
 
