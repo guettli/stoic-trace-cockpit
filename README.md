@@ -12,6 +12,8 @@ With "cockpit" I mean a web-interface. You can enable and disable the tracing wi
 
 The Stoic Trace Cockpit is meant to be useful during development and live on production.
 
+It is developed with and for the [Django] web framework.
+
 # Status: Alpha
 
 Up to now this project is just starting.
