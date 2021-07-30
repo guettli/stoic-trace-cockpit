@@ -12,7 +12,20 @@ With "cockpit" I mean a web-interface. You can enable and disable the tracing wi
 
 The Stoic Trace Cockpit is meant to be useful during development and live on production.
 
+# Status: Alpha
+
+Up to now this project is just starting.
+
 # Install
+
+If you have a Django project, and you want use it inside your existing project:
+
+```
+pip install stoic-trace-cockpit
+```
+
+If you want use a new virtual environment, then this installs the Stoic Trace Cockpit and
+a small test project:
 
 ```
 python3 -m venv stoic-trace-cockpit-env
@@ -25,6 +38,8 @@ echo '. $VIRTUAL_ENV/src/stoic-trace-cockpit/.env' >> bin/activate
 echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/stoic-trace-cockpit/.env)' >> bin/activate
 
 . bin/activate
+
+python setup-development-environment.py
 
 # You need to have PostgreSQL installed
 # Create user "stoic-trace-cockpit" with password "stoic-trace-cockpit":
