@@ -68,7 +68,22 @@ The migration create a user "anonymous" (for not authorized users) and "admin" (
 
 # Configure
 
-TODO
+If you use the dummy-project, then you can skip this.
+
+If you use Stoic Trace Cockpit in your existing Django project, then add this to settings.INSTALLED_APPS:
+
+```
+    'trace_cockpit',
+    'ordered_model',
+```
+
+Add this to `MIDDLEWARE`:
+
+```
+    'trace_cockpit.middleware.TraceMiddleware',
+```
+
+A good place for it is below "AuthenticationMiddleware", because you migh twant to trace http-request for a particular user. This is only possible if `request.user` already exists.
 
 
 # Naming convention
