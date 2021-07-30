@@ -10,7 +10,7 @@ with a flexible include/exclude filter.
 
 With "cockpit" I mean a web-interface. You can enable and disable the tracing without touching source code.
 
-Django-tace-cockpit is meant to be useful during development and live on production.
+The Stoic Trace Cockpit is meant to be useful during development and live on production.
 
 # Install
 
