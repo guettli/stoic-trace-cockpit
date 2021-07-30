@@ -1,9 +1,10 @@
 import os
 import subprocess
 import sys
+import webbrowser
 
 
-def call(cmd, capture_output=False):
+def call(cmd, capture_output=False, exit_on_failure=True):
     if isinstance(cmd, str):
         cmd = cmd.split()
     print(cmd)
@@ -16,8 +17,9 @@ def call(cmd, capture_output=False):
     if result.stderr:
         print(result.stderr)
     print(f'failed. {result.returncode}')
-    sys.exit()
-
+    if exit_on_failure:
+        sys.exit()
+    return result
 
 def check_git_is_clean():
     result = call(['git', 'status', '--porcelain'], capture_output=True)
@@ -28,7 +30,12 @@ def check_git_is_clean():
 
 
 def check_tests_and_coverage():
-    call('pytest --cov-report=html --no-cov-on-fail --cov --cov-fail-under=75 --create-db --exitfirst')
+    result = call('pytest --cov-report=html --no-cov-on-fail --cov --cov-fail-under=75 --create-db --exitfirst',
+         exit_on_failure=False)
+    if result.returncode == 0:
+        return
+    webbrowser.open(os.path.join(os.getcwd(), 'htmlcov', 'index.html'))
+    sys.exit()
 
 
 def main():
