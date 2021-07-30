@@ -43,8 +43,8 @@ If you want use a new virtual environment, then this installs the Stoic Trace Co
 a small test project:
 
 ```
-python3 -m venv stoic-trace-cockpit-env
-cd stoic-trace-cockpit-env/
+python3 -m venv stc-env
+cd stc-env/
 . bin/activate
 pip install -U pip wheel
 pip install -e git+ssh://git@github.com/guettli/stoic-trace-cockpit.git#egg=stoic-trace-cockpit
