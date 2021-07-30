@@ -16,6 +16,21 @@ The Stoic Trace Cockpit is meant to be useful during development and live on pro
 
 Up to now this project is just starting.
 
+# Models
+
+There are two database models which are both part of the Django-Admin.
+
+## TraceConfig
+
+With a TraceConfig you can configure which requests and which modules you want to trace.
+
+## TraceLog
+
+If a http request matches a TraceConfig, then it gets traced by the middleware and the result gets
+stored in a TraceLog. 
+
+In the TraceLog you see which Python source code lines where executed during processing the request.
+
 # Install
 
 If you have a Django project, and you want use it inside your existing project:
@@ -50,6 +65,11 @@ manage.py migrate
 ```
 
 The migration create a user "anonymous" (for not authorized users) and "admin" (with password "admin").
+
+# Configure
+
+TODO
+
 
 # Naming convention
 
