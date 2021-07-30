@@ -54,6 +54,8 @@ echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/stoic-trace-cockpit/.env)' >> bin/ac
 
 . bin/activate
 
+cd src/stoic-trace-cockpit/
+
 python setup-development-environment.py
 
 # You need to have PostgreSQL installed
