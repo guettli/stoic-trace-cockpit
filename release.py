@@ -18,7 +18,7 @@ def call(cmd, capture_output=False, exit_on_failure=True):
         print(result.stderr)
     print(f'failed. {result.returncode}')
     if exit_on_failure:
-        sys.exit()
+        sys.exit(1)
     return result
 
 def check_git_is_clean():
@@ -34,8 +34,8 @@ def check_tests_and_coverage():
          exit_on_failure=False)
     if result.returncode == 0:
         return
-    webbrowser.open(os.path.join(os.getcwd(), 'htmlcov', 'index.html'))
-    sys.exit()
+    webbrowser.open(os.path.join(os.getcwd(), 'coverage_html_report', 'index.html'))
+    sys.exit(1)
 
 
 def main():

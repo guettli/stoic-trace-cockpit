@@ -1,4 +1,4 @@
-htmlcov
+coverage_html_report
 .coverage
 python-hunter
 .env
