@@ -95,10 +95,11 @@ A good place for it is below "AuthenticationMiddleware", because you migh twant 
 # Why "stoic"?
 
 Why "stoic"? The audiobook "Was ich noch sagen wollte" (Helmut Schmidt) introduced me to Stoicism.
-Since then I embrace his guideline "serenity and dutifulness".
+Since then, I embrace his guideline "serenity and dutifulness".
 
-Imagine it is the 15. April 1912, and you are on the RMS Titanic which is slowly sinking into the cold North Atlantic Ocean.
-The best thing you can do is to take your instrument and play some lovely and relaxing tones with your friends.
+Imagine it is 15. April 1912, and you are on the RMS Titanic which is slowly sinking into the cold North Atlantic Ocean.
+
+The best thing you can do is to take your music instrument and play some lovely and relaxing tones with your friends.
 
 There are things which are inside your circle of influence and things which are outside your circle of influence.
 
