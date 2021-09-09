@@ -1,7 +1,9 @@
-import hunter
+import json
+from dataclasses import dataclass
 
+import hunter
 from trace_cockpit.testutils import norm_json_lines
-from trace_cockpit.trace_to_json import TraceToJson
+from trace_cockpit.trace_to_json import TraceToJson, is_stdlib, event_to_dict
 from trace_cockpit_testsite.utils import dummy_get_response
 
 
@@ -60,3 +62,45 @@ def test_trace_to_json__max_event_count_per_module(rf):
                          'kind': 'line',
                          'module': 'trace_cockpit_testsite.utils',
                          'source': '    i += 1'}]
+
+
+@dataclass
+class DummyEvent:
+    stdlib: bool = False
+    filename: str = ''
+    kind: str = ''
+    function: str = ''
+    module: str = ''
+    lineno: int = 0
+    builtin: bool = False
+    source: str = ''
+
+
+def test_is_stdlib():
+    assert is_stdlib(DummyEvent(stdlib=False)) == False
+    assert is_stdlib(DummyEvent(stdlib=True, filename='/foo')) == True
+
+
+def test_event_to_dict():
+    assert event_to_dict(DummyEvent()) == {'builtin': False,
+                                           'filename': '',
+                                           'function': '',
+                                           'kind': '',
+                                           'lineno': 0,
+                                           'module': '',
+                                           'source': '',
+                                           'stdlib': False}
+
+
+def test_TraceToJson__call():
+    tracer = TraceToJson()
+    tracer(DummyEvent())
+    tracer.stream.seek(0)
+    assert json.loads(tracer.stream.read()) == {'builtin': False,
+                                                'filename': '',
+                                                'function': '',
+                                                'kind': '',
+                                                'lineno': 0,
+                                                'module': '',
+                                                'source': '',
+                                                'stdlib': False}

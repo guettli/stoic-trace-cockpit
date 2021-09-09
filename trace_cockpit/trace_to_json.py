@@ -44,7 +44,7 @@ class TraceToJson(Action):
             self.max_event_count_per_module = max_event_count_per_module
 
     def __call__(self, event: Event):
-        module = event['module']
+        module = event.module
         if self.is_event_to_skip(event):
             self.skipped_modules[module] += 1
             return
