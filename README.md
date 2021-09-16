@@ -69,29 +69,18 @@ cd stc-env/
 . bin/activate
 pip install -U pip wheel
 pip install -e git+ssh://git@github.com/guettli/stoic-trace-cockpit.git#egg=stoic-trace-cockpit
-cp src/stoic-trace-cockpit/.env.example src/stoic-trace-cockpit/.env
-echo '. $VIRTUAL_ENV/src/stoic-trace-cockpit/.env' >> bin/activate
-echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/stoic-trace-cockpit/.env)' >> bin/activate
-
-. bin/activate
 
 cd src/stoic-trace-cockpit/
 
 pip install -r requirements_dev.txt
 
-# You need to have PostgreSQL installed
-# Create user "stoic-trace-cockpit" with password "stoic-trace-cockpit":
-sudo runuser -u postgres -- createuser -s -P stoic-trace-cockpit
-
-createdb $PGDATABASE
-manage.py migrate
+python manage.py migrate
 ```
 
-Now you can start the development server via:
+Now you can start the development server:
 ```
-manage.py runserver
+python manage.py runserver
 ```
-
 
 # Naming convention
 

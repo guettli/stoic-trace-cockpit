@@ -1,7 +1,4 @@
 pytest-django
-python-dotenv
-psycopg2-binary
-whitenoise
 pre-commit
 django-check-html-middleware
 pytest-cov
