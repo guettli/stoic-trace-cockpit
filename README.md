@@ -87,7 +87,11 @@ createdb $PGDATABASE
 manage.py migrate
 ```
 
-The migration create a user "anonymous" (for not authorized users) and "admin" (with password "admin").
+Now you can start the development server via:
+```
+manage.py runserver
+```
+
 
 # Naming convention
 
