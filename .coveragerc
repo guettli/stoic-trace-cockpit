@@ -8,3 +8,7 @@ source =
 
 [html]
 directory = coverage_html_report
+
+[report]
+fail_under = 95
+
