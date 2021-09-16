@@ -36,7 +36,7 @@ stored in a TraceLog.
 
 In the TraceLog you see which Python source code lines where executed during processing the request.
 
-# Install
+# Install Method 1: via pypi
 
 If you have a Django project, and you want use it inside your existing project:
 
@@ -44,8 +44,24 @@ If you have a Django project, and you want use it inside your existing project:
 pip install stoic-trace-cockpit
 ```
 
-If you want use a new virtual environment, then this installs the Stoic Trace Cockpit and
-a small test project:
+Add this to your `settings.INSTALLED_APPS`:
+
+```
+    'trace_cockpit',
+    'ordered_model',
+```
+
+Add this to `settings.MIDDLEWARE`:
+
+```
+    'trace_cockpit.middleware.TraceMiddleware',
+```
+
+A good place for it is below "AuthenticationMiddleware".
+
+# Install Method 2: via github (Development)
+
+If you want to improve stoic-trace-cockpit, then follow these instructions:
 
 ```
 python3 -m venv stc-env
@@ -61,7 +77,7 @@ echo 'export $(cut -d= -f1 $VIRTUAL_ENV/src/stoic-trace-cockpit/.env)' >> bin/ac
 
 cd src/stoic-trace-cockpit/
 
-python setup-development-environment.py
+pip install -r requirements_dev.txt
 
 # You need to have PostgreSQL installed
 # Create user "stoic-trace-cockpit" with password "stoic-trace-cockpit":
@@ -72,36 +88,6 @@ manage.py migrate
 ```
 
 The migration create a user "anonymous" (for not authorized users) and "admin" (with password "admin").
-
-# Configure
-
-If you use the dummy-project, then you can skip this.
-
-If you use Stoic Trace Cockpit in your existing Django project, then add this to settings.INSTALLED_APPS:
-
-```
-    'trace_cockpit',
-    'ordered_model',
-```
-
-Add this to `MIDDLEWARE`:
-
-```
-    'trace_cockpit.middleware.TraceMiddleware',
-```
-
-A good place for it is below "AuthenticationMiddleware", because you migh twant to trace http-request for a particular user. This is only possible if `request.user` already exists.
-
-# Why "stoic"?
-
-Why "stoic"? The audiobook "Was ich noch sagen wollte" (Helmut Schmidt) introduced me to Stoicism.
-Since then, I embrace his guideline "serenity and dutifulness".
-
-Imagine it is 15. April 1912, and you are on the RMS Titanic which is slowly sinking into the cold North Atlantic Ocean.
-
-The best thing you can do is to take your music instrument and play some lovely and relaxing tones with your friends.
-
-There are things which are inside your circle of influence and things which are outside your circle of influence.
 
 # Naming convention
 
