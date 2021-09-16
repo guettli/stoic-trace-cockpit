@@ -10,5 +10,5 @@ source =
 directory = coverage_html_report
 
 [report]
-fail_under = 95
+fail_under = 78
 
