@@ -63,4 +63,7 @@ class TraceLogAdmin(ModelAdmin):
     skipped_events_because_max_reached_html.short_description = 'Skipped events, because max reached'
 
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
 admin.site.register(TraceLog, TraceLogAdmin)
